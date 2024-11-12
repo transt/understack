@@ -265,7 +265,7 @@ jobs:
       #     argo list -n argo-events
 
       - name: Submit Workflows from Templates
-        run: 
+        run: |
           # Submit each workflow template by name
           for file in workflows/argo-events/workflowtemplates/*.yaml; do
             workflow_name=$(basename "$file" .yaml)
