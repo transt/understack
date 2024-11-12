@@ -142,10 +142,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print PR head ref
-        run: |
-          echo "Pull Request head ref: ${{ github.event.pull_request.head.ref }}"
-          echo "Pull Request head repo: ${{ github.event.pull_request.head.repo.full_name }}"
+      # - name: Print PR head ref
+      #   run: |
+      #     echo "Pull Request head ref: ${{ github.event.pull_request.head.ref }}"
+      #     echo "Pull Request head repo: ${{ github.event.pull_request.head.repo.full_name }}"
 
       - name: Checkout latest changes from the PR branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4 
@@ -153,7 +153,7 @@ jobs:
           # Fetch the latest changes for the pull request
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-          token: ${{ secrets.PAT_TOKEN }}
+          # token: ${{ secrets.PAT_TOKEN }}
 
       - name: List content
         run: |
