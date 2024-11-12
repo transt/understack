@@ -142,18 +142,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Print PR head ref
-      #   run: |
-      #     echo "Pull Request head ref: ${{ github.event.pull_request.head.ref }}"
-      #     echo "Pull Request head repo: ${{ github.event.pull_request.head.repo.full_name }}"
-
       - name: Checkout latest changes from the PR branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4 
-        with:
-          # Fetch the latest changes for the pull request
-          ref: ${{ github.event.pull_request.head.ref }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          # token: ${{ secrets.PAT_TOKEN }}
 
       - name: List content
         run: |
@@ -183,10 +173,6 @@ jobs:
           curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
-
-      # - name: Delete existing Kind cluster (if any)
-      #   run: |
-      #     kind delete cluster --name kind || true  # Delete existing cluster if it exists
 
       - name: Create Kind cluster
         run: kind create cluster --name argo-test-cluster
@@ -240,40 +226,52 @@ jobs:
           pwd
           ls -ltra
 
-          # Define the URL base for WorkflowTemplates
-          BASE_URL="https://raw.githubusercontent.com/rackerlabs/understack/main/workflows/argo-events/workflowtemplates"
-          
-          # List of WorkflowTemplate files
-          WORKFLOW_TEMPLATES=(
-            "enroll-server.yaml"
-            "keystone-event-project.yaml"
-            "nautobot-api.yaml"
-            "node-events.yaml"
-            "sync-provision-state-to-nautobot.yaml"
-            "undersync-device.yaml"
-            "undersync-switch.yaml"
-          )
-          
-          # Apply each WorkflowTemplate to the Argo namespace
-          for template in "${WORKFLOW_TEMPLATES[@]}"; do
-            kubectl apply -n argo-events -f "$BASE_URL/$template"
+          # # List of WorkflowTemplate files
+          # WORKFLOW_TEMPLATES=(
+          #   "enroll-server.yaml"
+          #   "keystone-event-project.yaml"
+          #   "nautobot-api.yaml"
+          #   "node-events.yaml"
+          #   "sync-provision-state-to-nautobot.yaml"
+          #   "undersync-device.yaml"
+          #   "undersync-switch.yaml"
+          # )
+          # 
+          # # Apply each WorkflowTemplate to the Argo namespace
+          # for template in "${WORKFLOW_TEMPLATES[@]}"; do
+          #   kubectl apply -n argo-events -f "workflows/argo-events/workflowtemplates/$template"
+          # done
+
+          # Apply all Workflow Templates
+          for file in workflows/argo-events/workflowtemplates/*.yaml; do
+            echo "Applying workflow template: $file"
+            kubectl apply -n argo-events -f $file
           done
           
           # Verify that WorkflowTemplates were created
           kubectl get workflowtemplates -n argo-events
 
+      # - name: Submit Workflows from Templates
+      #   run: |
+      #     # Submit workflows based on each WorkflowTemplate
+      #     for template in "${WORKFLOW_TEMPLATES[@]}"; do
+      #       # Extract the template name without file extension
+      #       template_name=$(basename "$template" .yaml)
+      #       # Submit the workflow and wait for it to complete
+      #       argo submit --from workflowtemplate/$template_name -n argo-events --watch
+      #     done
+      #     
+      #     # List workflows to confirm completion
+      #     argo list -n argo-events
+
       - name: Submit Workflows from Templates
-        run: |
-          # Submit workflows based on each WorkflowTemplate
-          for template in "${WORKFLOW_TEMPLATES[@]}"; do
-            # Extract the template name without file extension
-            template_name=$(basename "$template" .yaml)
-            # Submit the workflow and wait for it to complete
-            argo submit --from workflowtemplate/$template_name -n argo-events --watch
+        run: 
+          # Submit each workflow template by name
+          for file in workflows/argo-events/workflowtemplates/*.yaml; do
+            workflow_name=$(basename "$file" .yaml)
+            echo "Submitting workflow: $workflow_name"
+            argo submit --from workflowtemplate/$workflow_name -n argo-events
           done
-          
-          # List workflows to confirm completion
-          argo list -n argo-events
 
       - name: Verify Workflow Status
         run: |
