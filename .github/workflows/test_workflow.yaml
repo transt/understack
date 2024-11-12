@@ -167,10 +167,16 @@ jobs:
       #   with:
       #     version: v0.18.0  # Version of Kind to use
 
-      - name: Setup kind cluster
-        uses: helm/kind-action@v1.5.0
-        with:
-          kind-version: v0.11.1  # Specify the version you want to use
+      # - name: Setup kind cluster
+      #   uses: helm/kind-action@v1.5.0
+      #   with:
+      #     kind-version: v0.11.1  # Specify the version you want to use
+
+      - name: Install kind
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
 
       - name: Install kubectl
         run: |
