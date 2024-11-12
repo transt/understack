@@ -148,7 +148,7 @@ jobs:
           echo "Pull Request head repo: ${{ github.event.pull_request.head.repo.full_name }}"
 
       - name: Checkout latest changes from the PR branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4 
         with:
           # Fetch the latest changes for the pull request
           ref: ${{ github.event.pull_request.head.ref }}
@@ -162,10 +162,15 @@ jobs:
           ls -ltra
           pwd
 
-      - name: Set up Kind
-        uses: engineerd/setup-kind@v0.5.0
+      # - name: Set up Kind
+      #   uses: engineerd/setup-kind@v0.5.0
+      #   with:
+      #     version: v0.18.0  # Version of Kind to use
+
+      - name: Setup kind cluster
+        uses: helm/kind-action@v1.5.0
         with:
-          version: v0.18.0  # Version of Kind to use
+          kind-version: v0.11.1  # Specify the version you want to use
 
       - name: Install kubectl
         run: |
