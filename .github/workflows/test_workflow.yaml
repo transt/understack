@@ -270,7 +270,11 @@ jobs:
           for file in workflows/argo-events/workflowtemplates/*.yaml; do
             workflow_name=$(basename "$file" .yaml)
             echo "Submitting workflow: $workflow_name"
-            argo submit --from workflowtemplate/$workflow_name -n argo-events
+            if [ $file == "enroll-server" ]; then
+              argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address="1.2.3.4"
+            else
+              argo submit --from workflowtemplate/$workflow_name -n argo-events
+            fi
           done
 
       - name: Verify Workflow Status
