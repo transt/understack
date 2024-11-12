@@ -275,7 +275,7 @@ jobs:
               echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address=1.2.3.4"
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address="1.2.3.4"
             elif [ $workflow_name == "keystone-event-project" ]; then
-              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid=asdf"
+              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid=asdf -p event_type=memory_device_status"
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid="asdf"
             elif [ $workflow_name == "nautobot-api" ]; then
               echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
