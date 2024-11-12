@@ -272,8 +272,10 @@ jobs:
             workflow_name=$(basename "$file" .yaml)
             echo "Submitting workflow: $workflow_name"
             if [ $workflow_name == "enroll-server" ]; then
-              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address='1.2.3.4'"
+              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address=1.2.3.4"
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address="1.2.3.4"
+            elif [ $workflow_name == "" ]; then
+              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid=asdf"
             else
               argo submit --from workflowtemplate/$workflow_name -n argo-events
             fi
