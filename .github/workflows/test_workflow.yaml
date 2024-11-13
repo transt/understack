@@ -91,6 +91,8 @@ jobs:
               echo "pass"
               # echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
               # argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
+            elif [ $workflow_name == "undersync-device" ]; then
+              argo submit --from workflowtemplate/$workflow_name -n argo-events -p interface_mac="00:aa:bb:cc:dd:ee"
             else
               argo submit --from workflowtemplate/$workflow_name -n argo-events
             fi
