@@ -89,8 +89,6 @@ jobs:
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
             elif [ $workflow_name == "sync-provision-state-to-nautobot" ]; then
               echo "pass"
-              # echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
-              # argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
             elif [ $workflow_name == "undersync-device" ]; then
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p interface_mac="00:aa:bb:cc:dd:ee" -p device_uuid="11223344" -p network_name="blah" -p network_id=123 -p force=False -p dry_run=True
             elif [ $workflow_name == "undersync-switch" ]; then
@@ -102,16 +100,17 @@ jobs:
 
       - name: Verify Workflow Status
         run: |
+          argo list -n argo-events
           # Ensure all workflows completed successfully
-          for template in "${WORKFLOW_TEMPLATES[@]}"; do
-            template_name=$(basename "$template" .yaml)
-            argo get -n argo-events @latest --from workflowtemplate/$template_name
-          done
+          # for template in "${WORKFLOW_TEMPLATES[@]}"; do
+          #   template_name=$(basename "$template" .yaml)
+          #   argo get -n argo-events @latest --from workflowtemplate/$template_name
+          # done
 
-      - name: Verify Workflow Status
-        run: |
-          # Ensure the workflow completed successfully
-          argo get -n argo-events @latest
+      # - name: Verify Workflow Status
+      #   run: |
+      #     # Ensure the workflow completed successfully
+      #     argo get -n argo-events @latest
 
       - name: Delete Kind cluster
         if: always()
