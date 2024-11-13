@@ -1,131 +1,3 @@
-# [dcxosd-venv] scot9557@C02XK716JG5L ~/vagrant/Ubuntu22.04 
-# $ vagrant up
-# ==> vagrant: A new version of Vagrant is available: 2.4.2 (installed version: 2.3.7)!
-# ==> vagrant: To upgrade visit: https://www.vagrantup.com/downloads.html
-# 
-# Bringing machine 'default' up with 'virtualbox' provider...
-# ==> default: Checking if box 'bento/ubuntu-22.04' version '202407.23.0' is up to date...
-# ==> default: Clearing any previously set forwarded ports...
-# ==> default: Clearing any previously set network interfaces...
-# ==> default: Specific bridge 'en0: Wi-Fi (Wireless)' not found. You may be asked to specify
-# ==> default: which network to bridge to.
-# ==> default: Available bridged network interfaces:
-# 1) en0: Wi-Fi
-# 2) en6: USB Ethernet(?)
-# 3) ap1
-# 4) awdl0
-# 5) llw0
-# 6) en1: Thunderbolt 1
-# 7) en3: Thunderbolt 3
-# 8) en4: Thunderbolt 4
-# 9) en2: Thunderbolt 2
-# 10) bridge0
-# ==> default: When choosing an interface, it is usually the one that is
-# ==> default: being used to connect to the internet.
-# ==> default: 
-#     default: Which interface should the network bridge to? 1
-# ==> default: Preparing network interfaces based on configuration...
-#     default: Adapter 1: nat
-#     default: Adapter 2: hostonly
-#     default: Adapter 3: hostonly
-#     default: Adapter 4: bridged
-# ==> default: Forwarding ports...
-#     default: 22 (guest) => 2222 (host) (adapter 1)
-# ==> default: Running 'pre-boot' VM customizations...
-# ==> default: Booting VM...
-# ==> default: Waiting for machine to boot. This may take a few minutes...
-#     default: SSH address: 127.0.0.1:2222
-#     default: SSH username: vagrant
-#     default: SSH auth method: private key
-#     default: Warning: Connection reset. Retrying...
-# ==> default: Machine booted and ready!
-# ==> default: Checking for guest additions in VM...
-# ==> default: Setting hostname...
-# ==> default: Configuring and enabling network interfaces...
-# ==> default: Mounting shared folders...
-#     default: /code => /Users/scot9557/code
-#     default: /DCXOSD => /Users/scot9557/Library/CloudStorage/OneDrive-RackspaceInc/scot9557/note/DCXOSD
-#     default: /DCXOSD2 => /Users/scot9557/Library/CloudStorage/OneDrive-RackspaceInc/scot9557/note/DCXOSD2
-#     default: /vagrant => /Users/scot9557/vagrant/Ubuntu22.04
-#     default: /virtualenv => /Users/scot9557/virtualenv
-# ==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
-# ==> default: flag to force provisioning. Provisioners marked to run always will still run.
-# 
-# [dcxosd-venv] scot9557@C02XK716JG5L ~/vagrant/Ubuntu22.04 
-# $ vagrant ssh
-# Welcome to Ubuntu 22.04.4 LTS (GNU/Linux 5.15.0-116-generic x86_64)
-# 
-#  * Documentation:  https://help.ubuntu.com
-#  * Management:     https://landscape.canonical.com
-#  * Support:        https://ubuntu.com/pro
-# 
-#  System information as of Mon Nov 11 04:24:44 PM UTC 2024
-# 
-#   System load:           1.58
-#   Usage of /:            47.5% of 30.34GB
-#   Memory usage:          7%
-#   Swap usage:            0%
-#   Processes:             172
-#   Users logged in:       0
-#   IPv4 address for eth0: 10.0.2.15
-#   IPv4 address for eth3: 192.168.29.59
-#   IPv6 address for eth3: 2605:a601:a0d1:300::328
-#   IPv6 address for eth3: 2605:a601:a0d1:300:a00:27ff:fe47:5189
-# 
-# 
-# This system is built by the Bento project by Chef Software
-# More information can be found at https://github.com/chef/bento
-# 
-# Use of this system is acceptance of the OS vendor EULA and License Agreements.
-# Last login: Thu Oct 24 22:33:43 2024 from 10.0.2.2
-#
-# vagrant@ubuntu2204:~$ sudo chmod 666 /var/run/docker.sock
-# vagrant@ubuntu2204:~$ sudo systemctl start docker
-# vagrant@ubuntu2204:~$ docker stop $(docker ps -q)
-# vagrant@ubuntu2204:~$ docker rm $(docker ps -a -q)
-# vagrant@ubuntu2204:~$ docker rmi $(docker images -q)
-# vagrant@ubuntu2204:~$ docker system prune --all --force
-# vagrant@ubuntu2204:~$ docker volume rm $(docker volume ls -q)
-# vagrant@ubuntu2204:~$ docker system prune -a --volumes -f
-#
-# vagrant@ubuntu2204:~$ cd /DCXOSD/JIRA/PUC-479-gitworkflow/
-# vagrant@ubuntu2204:/DCXOSD/JIRA/PUC-479-gitworkflow$ ls -ltra
-# total 0
-# drwx------ 1 vagrant vagrant 4960 Nov 11 16:14 ..
-# drwxr-xr-x 1 vagrant vagrant   96 Nov 11 16:27 .github
-# drwxr-xr-x 1 vagrant vagrant   96 Nov 11 16:27 .
-#
-# vagrant@ubuntu2204:/DCXOSD/JIRA/PUC-479-gitworkflow$ git init .
-# hint: Using 'master' as the name for the initial branch. This default branch name
-# hint: is subject to change. To configure the initial branch name to use in all
-# hint: of your new repositories, which will suppress this warning, call:
-# hint: 
-# hint: 	git config --global init.defaultBranch <name>
-# hint: 
-# hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-# hint: 'development'. The just-created branch can be renamed via this command:
-# hint: 
-# hint: 	git branch -m <name>
-#
-# $ git commit --allow-empty -n -m "Initial commit."
-# [main (root-commit) 5abdb24] Initial commit.
-#
-# [dcxosd-venv] scot9557@C02XK716JG5L ~/note/DCXOSD/JIRA/PUC-479-gitworkflow (main) 
-# $ git remote add origin git@github.com:transt/understack.git
-#
-# [dcxosd-venv] scot9557@C02XK716JG5L ~/note/DCXOSD/JIRA/PUC-479-gitworkflow (main) 
-# $ git remote add upstream git@github.com:rackerlabs/understack.git
-#
-# vagrant@ubuntu2204:/DCXOSD/JIRA/PUC-479-gitworkflow$ act --list
-# INFO[0000] Using docker host 'unix:///var/run/docker.sock', and daemon socket 'unix:///var/run/docker.sock' 
-# Stage  Job ID              Job name            Workflow name                 Workflow file  Events           
-# 0      test-argo-workflow  test-argo-workflow  Test Argo Workflow with Kind  test.yaml      push,pull_request
-# 
-# INFO    ️📣 A newer version of 'act' is available - consider ugrading to 0.2.69. 
-# 
-# 
-# vagrant@ubuntu2204:/DCXOSD/JIRA/PUC-479-gitworkflow$ act  -v -j test-argo-workflow
-#
 name: Test Argo Workflow with Kind
 
 on:
@@ -151,16 +23,6 @@ jobs:
           echo ${{ github.event.pull_request.head.repo.full_name }}
           ls -ltra
           pwd
-
-      # - name: Set up Kind
-      #   uses: engineerd/setup-kind@v0.5.0
-      #   with:
-      #     version: v0.18.0  # Version of Kind to use
-
-      # - name: Setup kind cluster
-      #   uses: helm/kind-action@v1.5.0
-      #   with:
-      #     kind-version: v0.11.1  # Specify the version you want to use
 
       - name: Install kind
         run: |
@@ -196,53 +58,11 @@ jobs:
           sudo mv argo-linux-amd64 /usr/local/bin/argo
           argo version
 
-      # - name: Apply Argo WorkflowTemplate
-      #   run: |
-      #     kubectl apply -n argo -f https://raw.githubusercontent.com/rackerlabs/understack/main/workflows/argo-events/workflowtemplates/enroll-server.yaml
-      #     # Verify WorkflowTemplate creation
-      #     kubectl get workflowtemplate -n argo
-      #
-      # - name: Submit Workflow from Template
-      #   run: |
-      #     # Run the WorkflowTemplate by creating a new Workflow from it
-      #     argo submit --from workflowtemplate/enroll-server -n argo --watch
-      #     # List workflows to confirm submission and completion
-      #     argo list -n argo
-
-      # ---------------------------------------------------------------   
-      # - name: Submit a Hello World Workflow
-      #   env:
-      #     KUBECONFIG: ${{ steps.kind.outputs.kubeconfig }}  # Uses KUBECONFIG from Kind cluster
-      #   run: |
-      #     # argo submit --watch -n argo https://raw.githubusercontent.com/rackerlabs/understack/main/workflows/openstack/sensors/sensor-keystone-event-project.yaml
-      #     argo submit --watch -n argo https://raw.githubusercontent.com/rackerlabs/understack/main/workflows/argo-events/workflowtemplates/enroll-server.yaml
-      #     # argo submit --watch -n argo https://raw.githubusercontent.com/argoproj/argo-workflows/main/examples/hello-world.yaml
-      #     # Get list of workflows to confirm completion
-      #     argo list -n argo
- 
-      # 
       - name: Apply WorkflowTemplates from Repository
         run: |
           pwd
           ls -ltra
 
-          # # List of WorkflowTemplate files
-          # WORKFLOW_TEMPLATES=(
-          #   "enroll-server.yaml"
-          #   "keystone-event-project.yaml"
-          #   "nautobot-api.yaml"
-          #   "node-events.yaml"
-          #   "sync-provision-state-to-nautobot.yaml"
-          #   "undersync-device.yaml"
-          #   "undersync-switch.yaml"
-          # )
-          # 
-          # # Apply each WorkflowTemplate to the Argo namespace
-          # for template in "${WORKFLOW_TEMPLATES[@]}"; do
-          #   kubectl apply -n argo-events -f "workflows/argo-events/workflowtemplates/$template"
-          # done
-
-          # Apply all Workflow Templates
           for file in workflows/argo-events/workflowtemplates/*.yaml; do
             echo "Applying workflow template: $file"
             kubectl apply -n argo-events -f $file
@@ -250,19 +70,6 @@ jobs:
           
           # Verify that WorkflowTemplates were created
           kubectl get workflowtemplates -n argo-events
-
-      # - name: Submit Workflows from Templates
-      #   run: |
-      #     # Submit workflows based on each WorkflowTemplate
-      #     for template in "${WORKFLOW_TEMPLATES[@]}"; do
-      #       # Extract the template name without file extension
-      #       template_name=$(basename "$template" .yaml)
-      #       # Submit the workflow and wait for it to complete
-      #       argo submit --from workflowtemplate/$template_name -n argo-events --watch
-      #     done
-      #     
-      #     # List workflows to confirm completion
-      #     argo list -n argo-events
 
       - name: Submit Workflows from Templates
         run: |
@@ -279,6 +86,9 @@ jobs:
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid="asdf" -p event_type=memory_device_status
             elif [ $workflow_name == "nautobot-api" ]; then
               echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
+              argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
+            elif [ $workflow_name == "sync-provision-state-to-nautobot" ]; then
+              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"                                                                                                                      
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
             else
               argo submit --from workflowtemplate/$workflow_name -n argo-events
