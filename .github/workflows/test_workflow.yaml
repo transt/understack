@@ -88,8 +88,9 @@ jobs:
               echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
             elif [ $workflow_name == "sync-provision-state-to-nautobot" ]; then
-              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"                                                                                                                      
-              argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
+              echo "pass"
+              # echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
+              # argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
             else
               argo submit --from workflowtemplate/$workflow_name -n argo-events
             fi
