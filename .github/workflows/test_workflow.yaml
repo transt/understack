@@ -93,6 +93,8 @@ jobs:
               # argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
             elif [ $workflow_name == "undersync-device" ]; then
               argo submit --from workflowtemplate/$workflow_name -n argo-events -p interface_mac="00:aa:bb:cc:dd:ee" -p device_uuid="11223344" -p network_name="blah" -p network_id=123 -p force=False -p dry_run=True
+            elif [ $workflow_name == "undersync-switch" ]; then
+              argo submit --from workflowtemplate/$workflow_name -n argo-events -p switch_uuids="112233" -p force=False -p dry_run=True
             else
               argo submit --from workflowtemplate/$workflow_name -n argo-events
             fi
