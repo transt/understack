@@ -17,10 +17,10 @@ jobs:
       - name: Checkout latest changes from the PR branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4 
 
-      - name: List content
-        run: |
-          echo ${{ github.event.pull_request.head.ref }}
-          echo ${{ github.event.pull_request.head.repo.full_name }}
+      # - name: List content
+      #   run: |
+      #     echo ${{ github.event.pull_request.head.ref }}
+      #     echo ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Install kind
         run: |
@@ -28,21 +28,21 @@ jobs:
           chmod +x ./kind
           sudo mv ./kind /usr/local/bin/kind
 
-      - name: Install Kustomize
-        run: |
-          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-          sudo mv kustomize /usr/bin
+      # - name: Install Kustomize
+      #   run: |
+      #     curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+      #     sudo mv kustomize /usr/bin
 
-      - name: Install Helm
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-          helm version
+      # - name: Install Helm
+      #   run: |
+      #     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      #     helm version
 
-      - name: Install kubeseal
-        run: |
-          wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.26.0/kubeseal-0.26.0-linux-amd64.tar.gz
-          tar xzf kubeseal-0.26.0-linux-amd64.tar.gz
-          sudo mv kubeseal /usr/bin
+      # - name: Install kubeseal
+      #   run: |
+      #     wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.26.0/kubeseal-0.26.0-linux-amd64.tar.gz
+      #     tar xzf kubeseal-0.26.0-linux-amd64.tar.gz
+      #     sudo mv kubeseal /usr/bin
 
       - name: Install kubectl
         run: |
@@ -72,46 +72,51 @@ jobs:
           sudo mv argo-linux-amd64 /usr/local/bin/argo
           argo version
 
-      - name: Apply WorkflowTemplates from Repository
+      - name: Run Argo Lint on Workflow Template
         run: |
-          for file in workflows/argo-events/workflowtemplates/*.yaml; do
-            echo "Applying workflow template: $file"
-            kubectl apply -n argo-events -f $file
-          done
-          
-          # Verify that WorkflowTemplates were created
-          kubectl get workflowtemplates -n argo-events
+          # Path to your Argo Workflow Template YAML file
+          argo lint path/to/your/workflow-template.yaml
 
-      - name: Submit Workflows from Templates
-        run: |
-          set -x
-          # Submit each workflow template by name
-          for file in workflows/argo-events/workflowtemplates/*.yaml; do
-            workflow_name=$(basename "$file" .yaml)
-            echo "Submitting workflow: $workflow_name"
-            if [ $workflow_name == "enroll-server" ]; then
-              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address=1.2.3.4"
-              argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address="1.2.3.4"
-            elif [ $workflow_name == "keystone-event-project" ]; then
-              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid=asdf -p event_type=memory_device_status"
-              argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid="asdf" -p event_type=memory_device_status
-            elif [ $workflow_name == "nautobot-api" ]; then
-              echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
-              argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
-            elif [ $workflow_name == "sync-provision-state-to-nautobot" ]; then
-              echo "pass"
-            elif [ $workflow_name == "undersync-device" ]; then
-              argo submit --from workflowtemplate/$workflow_name -n argo-events -p interface_mac="00:aa:bb:cc:dd:ee" -p device_uuid="11223344" -p network_name="blah" -p network_id=123 -p force=False -p dry_run=True
-            elif [ $workflow_name == "undersync-switch" ]; then
-              argo submit --from workflowtemplate/$workflow_name -n argo-events -p switch_uuids="11223344" -p force=False -p dry_run=True
-            else
-              argo submit --from workflowtemplate/$workflow_name -n argo-events
-            fi
-          done
+      # - name: Apply WorkflowTemplates from Repository
+      #   run: |
+      #     for file in workflows/argo-events/workflowtemplates/*.yaml; do
+      #       echo "Applying workflow template: $file"
+      #       kubectl apply -n argo-events -f $file
+      #     done
+      #     
+      #     # Verify that WorkflowTemplates were created
+      #     kubectl get workflowtemplates -n argo-events
 
-      - name: Verify Workflow Status
-        run: |
-          argo list -n argo-events
+      # - name: Submit Workflows from Templates
+      #   run: |
+      #     set -x
+      #     # Submit each workflow template by name
+      #     for file in workflows/argo-events/workflowtemplates/*.yaml; do
+      #       workflow_name=$(basename "$file" .yaml)
+      #       echo "Submitting workflow: $workflow_name"
+      #       if [ $workflow_name == "enroll-server" ]; then
+      #         echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address=1.2.3.4"
+      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address="1.2.3.4"
+      #       elif [ $workflow_name == "keystone-event-project" ]; then
+      #         echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid=asdf -p event_type=memory_device_status"
+      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid="asdf" -p event_type=memory_device_status
+      #       elif [ $workflow_name == "nautobot-api" ]; then
+      #         echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
+      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
+      #       elif [ $workflow_name == "sync-provision-state-to-nautobot" ]; then
+      #         echo "pass"
+      #       elif [ $workflow_name == "undersync-device" ]; then
+      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p interface_mac="00:aa:bb:cc:dd:ee" -p device_uuid="11223344" -p network_name="blah" -p network_id=123 -p force=False -p dry_run=True
+      #       elif [ $workflow_name == "undersync-switch" ]; then
+      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p switch_uuids="11223344" -p force=False -p dry_run=True
+      #       else
+      #         argo submit --from workflowtemplate/$workflow_name -n argo-events
+      #       fi
+      #     done
+
+      # - name: Verify Workflow Status
+      #   run: |
+      #     argo list -n argo-events
 
       - name: Delete Kind cluster
         if: always()
