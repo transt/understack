@@ -19,30 +19,13 @@ jobs:
         with:
           cluster_name: argo-lint-cluster
 
-      # - name: Install kind
+      # - name: Install Argo CLI
       #   run: |
-      #     curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
-      #     chmod +x ./kind
-      #     sudo mv ./kind /usr/local/bin/kind
-
-      - name: Install Argo CLI
-        run: |
-          curl -sLO https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz
-          gunzip argo-linux-amd64.gz
-          chmod +x argo-linux-amd64
-          sudo mv argo-linux-amd64 /usr/local/bin/argo
-          argo version
-
-      # - name: Configure kubectl for Kind
-      #   run: kubectl cluster-info --context kind-argo-test-cluster
-
-      # - name: Install Argo Workflows
-      #   run: |
-      #     kubectl create namespace argo
-      #     kubectl create namespace argo-events
-      #     kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo-workflows/main/manifests/quick-start-minimal.yaml
-      #     # Wait for Argo Workflows components to be ready
-      #     kubectl rollout status deployment/argo-server -n argo --timeout=300s
+      #     curl -sLO https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz
+      #     gunzip argo-linux-amd64.gz
+      #     chmod +x argo-linux-amd64
+      #     sudo mv argo-linux-amd64 /usr/local/bin/argo
+      #     argo version
 
       - name: Install Argo
         run: |
@@ -58,48 +41,3 @@ jobs:
               echo "Linting workflow template: $file"
               argo lint $file
           done
-
-      # - name: Apply WorkflowTemplates from Repository
-      #   run: |
-      #     for file in workflows/argo-events/workflowtemplates/*.yaml; do
-      #       echo "Applying workflow template: $file"
-      #       kubectl apply -n argo-events -f $file
-      #     done
-      #     
-      #     # Verify that WorkflowTemplates were created
-      #     kubectl get workflowtemplates -n argo-events
-
-      # - name: Submit Workflows from Templates
-      #   run: |
-      #     set -x
-      #     # Submit each workflow template by name
-      #     for file in workflows/argo-events/workflowtemplates/*.yaml; do
-      #       workflow_name=$(basename "$file" .yaml)
-      #       echo "Submitting workflow: $workflow_name"
-      #       if [ $workflow_name == "enroll-server" ]; then
-      #         echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address=1.2.3.4"
-      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p ip_address="1.2.3.4"
-      #       elif [ $workflow_name == "keystone-event-project" ]; then
-      #         echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid=asdf -p event_type=memory_device_status"
-      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p project_uuid="asdf" -p event_type=memory_device_status
-      #       elif [ $workflow_name == "nautobot-api" ]; then
-      #         echo "argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri=/"
-      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p uri="/"
-      #       elif [ $workflow_name == "sync-provision-state-to-nautobot" ]; then
-      #         echo "pass"
-      #       elif [ $workflow_name == "undersync-device" ]; then
-      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p interface_mac="00:aa:bb:cc:dd:ee" -p device_uuid="11223344" -p network_name="blah" -p network_id=123 -p force=False -p dry_run=True
-      #       elif [ $workflow_name == "undersync-switch" ]; then
-      #         argo submit --from workflowtemplate/$workflow_name -n argo-events -p switch_uuids="11223344" -p force=False -p dry_run=True
-      #       else
-      #         argo submit --from workflowtemplate/$workflow_name -n argo-events
-      #       fi
-      #     done
-
-      # - name: Verify Workflow Status
-      #   run: |
-      #     argo list -n argo-events
-
-      # - name: Delete Kind cluster
-      #   if: always()
-      #   run: kind delete cluster --name argo-test-cluster
