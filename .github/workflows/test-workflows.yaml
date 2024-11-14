@@ -74,9 +74,6 @@ jobs:
 
       - name: Apply WorkflowTemplates from Repository
         run: |
-          pwd
-          ls -ltra
-
           for file in workflows/argo-events/workflowtemplates/*.yaml; do
             echo "Applying workflow template: $file"
             kubectl apply -n argo-events -f $file
