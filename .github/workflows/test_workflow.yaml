@@ -21,17 +21,6 @@ jobs:
         run: |
           echo ${{ github.event.pull_request.head.ref }}
           echo ${{ github.event.pull_request.head.repo.full_name }}
-          ls -ltra
-          pwd
-
-      # - name: Install Dependencies                                                                                                                                                                                                                                          
-      #   run: |
-      #     set -x
-      #     sudo apt update && sudo apt install -y curl jq wget apt-transport-https
-      #     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-      #     # sudo apt-get install apt-transport-https --yes
-      #     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-      #     sudo apt-get install -y helm
 
       - name: Install kind
         run: |
@@ -126,16 +115,6 @@ jobs:
       - name: Verify Workflow Status
         run: |
           argo list -n argo-events
-          # Ensure all workflows completed successfully
-          # for template in "${WORKFLOW_TEMPLATES[@]}"; do
-          #   template_name=$(basename "$template" .yaml)
-          #   argo get -n argo-events @latest --from workflowtemplate/$template_name
-          # done
-
-      # - name: Verify Workflow Status
-      #   run: |
-      #     # Ensure the workflow completed successfully
-      #     argo get -n argo-events @latest
 
       - name: Delete Kind cluster
         if: always()
