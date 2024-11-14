@@ -19,12 +19,14 @@ jobs:
         with:
           cluster_name: argo-lint-cluster
 
-      # - name: Install Argo CLI
-      #   run: |
-      #     gunzip argo-linux-amd64.gz
-      #     chmod +x argo-linux-amd64
-      #     sudo mv argo-linux-amd64 /usr/local/bin/argo
-      #     argo version
+      - name: Install Argo CLI
+        run: |
+          ls -la
+          pwd
+          gunzip argo-linux-amd64.gz
+          chmod +x argo-linux-amd64
+          sudo mv argo-linux-amd64 /usr/local/bin/argo
+          argo version
 
       - name: Install Argo
         run: |
@@ -33,13 +35,6 @@ jobs:
           kubectl create namespace argo
           helm install argo argo/argo-workflows --namespace argo
 
-      - name: Install Argo CLI
-        run: |
-          gunzip argo-linux-amd64.gz
-          chmod +x argo-linux-amd64
-          sudo mv argo-linux-amd64 /usr/local/bin/argo
-          argo version
-          
       - name: Argo Lint Workflow Template
         run: |
           # Path to your Argo Workflow Template YAML file
