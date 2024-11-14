@@ -75,7 +75,10 @@ jobs:
       - name: Run Argo Lint on Workflow Template
         run: |
           # Path to your Argo Workflow Template YAML file
-          argo lint path/to/your/workflow-template.yaml
+          for file in workflows/argo-events/workflowtemplates/*.yaml; do
+              echo "Linting workflow template: $file"
+              kubectl lint $file
+          done
 
       # - name: Apply WorkflowTemplates from Repository
       #   run: |
