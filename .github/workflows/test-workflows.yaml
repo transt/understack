@@ -19,26 +19,22 @@ jobs:
         with:
           cluster_name: argo-lint-cluster
 
-      - name: Install Argo CLI
-        run: |
-          set -x
-          curl -sLO https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz
-          gunzip argo-linux-amd64.gz
-          chmod +x argo-linux-amd64
-          sudo mv argo-linux-amd64 /usr/local/bin/argo
-          argo version
+      # - name: Install Argo CLI
+      #   run: |
+      #     gunzip argo-linux-amd64.gz
+      #     chmod +x argo-linux-amd64
+      #     sudo mv argo-linux-amd64 /usr/local/bin/argo
+      #     argo version
 
       - name: Install Argo
         run: |
-          set -x
           helm repo add argo https://argoproj.github.io/argo-helm
           helm repo update
           kubectl create namespace argo
           helm install argo argo/argo-workflows --namespace argo
 
-      - name: Run Argo Lint on Workflow Template
+      - name: Argo Lint Workflow Template
         run: |
-          set -x
           # Path to your Argo Workflow Template YAML file
           for file in workflows/argo-events/workflowtemplates/*.yaml; do
               echo "Linting workflow template: $file"
